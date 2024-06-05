@@ -12,16 +12,26 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const DataTable = () => {
-  const data = Array(10).fill({
-    item: "Lorem dolore",
-    value: "9,000",
-    data1: "Data series",
-    data2: "DD/MM/YY",
-    status: "Status",
-  });
+  const [data, setData] = useState([
+    { item: "Lorem dolore", value: "9,000", data1: "Data series", data2: "DD/MM/YY", status: "Status" },
+    // Add more initial data if needed
+  ]);
+
+  const handleDelete = (index) => {
+    const newData = [...data];
+    newData.splice(index, 1);
+    setData(newData);
+  };
+
+  const handleEdit = (index, updatedRow) => {
+    const newData = [...data];
+    newData[index] = updatedRow;
+    setData(newData);
+  };
 
   return (
     <Box w="100%" p={4}>
@@ -53,15 +63,15 @@ const DataTable = () => {
                 <Button size="sm">{row.status}</Button>
               </Td>
               <Td>
-                <IconButton icon={<FaEdit />} size="sm" mr={2} />
-                <IconButton icon={<FaTrash />} size="sm" />
+                <IconButton icon={<FaEdit />} size="sm" mr={2} onClick={() => handleEdit(index, row)} />
+                <IconButton icon={<FaTrash />} size="sm" onClick={() => handleDelete(index)} />
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
       <Flex justify="space-between" align="center" mt={4}>
-        <Text>106 results</Text>
+        <Text>{data.length} results</Text>
         <Flex>
           <Button size="sm" mr={2}>
             &lt;

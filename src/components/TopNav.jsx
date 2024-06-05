@@ -2,20 +2,25 @@ import { useState } from "react";
 import { Box, Flex, Input, Button, IconButton, Select, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel } from "@chakra-ui/react";
 import { FaBell, FaQuestionCircle, FaUserCircle } from "react-icons/fa";
 
-const TopNav = () => {
+const TopNav = ({ onAddReport }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reportName, setReportName] = useState("");
+  const [category, setCategory] = useState("");
+  const [value, setValue] = useState("");
+  const [data, setData] = useState("");
+  const [status, setStatus] = useState("");
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const handleSave = () => {
+    const newReport = { item: reportName, value, data1: category, data2: data, status };
+    onAddReport(newReport);
+    closeModal();
+  };
+
   return (
-    <Box
-      w="100%"
-      bg="white"
-      p={4}
-      borderBottom="1px solid"
-      borderColor="gray.200"
-    >
+    <Box w="100%" bg="white" p={4} borderBottom="1px solid" borderColor="gray.200">
       <Flex justify="space-between" align="center">
         <Flex align="center" w="60%">
           <Input placeholder="Search" mr={4} />
@@ -44,33 +49,33 @@ const TopNav = () => {
           <ModalBody>
             <FormControl id="report-name" mb={4}>
               <FormLabel>Report Name</FormLabel>
-              <Input placeholder="Enter report name" />
+              <Input placeholder="Enter report name" value={reportName} onChange={(e) => setReportName(e.target.value)} />
             </FormControl>
             <FormControl id="category" mb={4}>
               <FormLabel>Category</FormLabel>
-              <Select placeholder="Select category">
+              <Select placeholder="Select category" value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value="category1">Category 1</option>
                 <option value="category2">Category 2</option>
               </Select>
             </FormControl>
             <FormControl id="value" mb={4}>
               <FormLabel>Value ($)</FormLabel>
-              <Input placeholder="Enter value" />
+              <Input placeholder="Enter value" value={value} onChange={(e) => setValue(e.target.value)} />
             </FormControl>
             <FormControl id="data" mb={4}>
               <FormLabel>Data</FormLabel>
-              <Input type="date" />
+              <Input type="date" value={data} onChange={(e) => setData(e.target.value)} />
             </FormControl>
             <FormControl id="status" mb={4}>
               <FormLabel>Status</FormLabel>
-              <Select placeholder="Select status">
+              <Select placeholder="Select status" value={status} onChange={(e) => setStatus(e.target.value)}>
                 <option value="status1">Status 1</option>
                 <option value="status2">Status 2</option>
               </Select>
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" mr={3} onClick={handleSave}>
               Save
             </Button>
             <Button variant="ghost" onClick={closeModal}>Cancel</Button>
