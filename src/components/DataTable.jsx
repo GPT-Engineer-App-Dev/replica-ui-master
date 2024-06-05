@@ -15,22 +15,14 @@ import {
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-const DataTable = () => {
-  const [data, setData] = useState([
-    { item: "Lorem dolore", value: "9,000", data1: "Data series", data2: "DD/MM/YY", status: "Status" },
-    // Add more initial data if needed
-  ]);
+const DataTable = ({ data, onEditReport, onDeleteReport }) => {
 
   const handleDelete = (index) => {
-    const newData = [...data];
-    newData.splice(index, 1);
-    setData(newData);
+    onDeleteReport(index);
   };
 
   const handleEdit = (index, updatedRow) => {
-    const newData = [...data];
-    newData[index] = updatedRow;
-    setData(newData);
+    onEditReport(index, updatedRow);
   };
 
   return (

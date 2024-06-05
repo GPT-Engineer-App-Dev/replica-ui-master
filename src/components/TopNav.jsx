@@ -16,6 +16,11 @@ const TopNav = ({ onAddReport }) => {
   const handleSave = () => {
     const newReport = { item: reportName, value, data1: category, data2: data, status };
     onAddReport(newReport);
+    setReportName("");
+    setCategory("");
+    setValue("");
+    setData("");
+    setStatus("");
     closeModal();
   };
 
